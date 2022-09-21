@@ -1,0 +1,115 @@
+
+/* class MyRunnable implements Runnable {
+
+ private int vertexID;
+ private Direction direction;
+
+ public MyRunnable(int vertexID, Direction direction) {
+ this.vertexID = vertexID;
+ this.direction = direction;
+ }
+
+ @Override
+ public void run() {
+ breadthFirst(new Node(vertexID, 0, 1.0, direction));//depth 0, distance 1
+ }
+
+ public void breadthFirst(Node n) {
+ LinkedList<Node> q = new LinkedList<>();
+ if (n == null) {
+ return;
+ }
+ q.add(n);
+ while (!q.isEmpty()) {
+ Node newNode = q.poll();
+ if (newNode.depth >= StringMethods.DEPTH) {
+ return;
+ }
+ if (newNode.distance < StringMethods.CUTOFF) {
+ continue;
+ }
+ if (!nodes.containsKey(newNode.vertexID)) {
+ nodes.put(newNode.vertexID, newNode);
+ } else {
+ Node otherNode = nodes.get(newNode.vertexID);
+ if (otherNode.direction != direction) { // two tunnels meet!!!!
+ distance = distance + newNode.distance * otherNode.distance;
+ }
+ continue;
+ }
+ if (relationshipDB.get(newNode.vertexID) == null) {
+ continue;
+ }
+ for (int destinationNodeID : relationshipDB.get(newNode.vertexID)) {
+ double dist = newNode.distance;
+ String edge;
+ if (direction == Direction.LEFT) {
+ edge = newNode.vertexID + "-" + destinationNodeID;
+ } else {
+ edge = destinationNodeID + "-" + newNode.vertexID;
+ }
+ if(!edgeDB.containsKey(edge)){
+ continue;
+ }
+ dist *= edgeDB.get(edge);
+ q.add(new Node(destinationNodeID, newNode.depth + 1, dist, direction));
+ }
+ }
+ }
+ }*/
+/* public double computeSimilarity(int v1ID, int v2ID) {
+ distance = 0;
+ nodes = new ConcurrentHashMap<>();
+ Runnable r1 = new MyRunnable(v1ID, Direction.LEFT);
+ Runnable r2 = new MyRunnable(v2ID, Direction.RIGHT);
+ Thread t1 = new Thread(r1);
+ Thread t2 = new Thread(r2);
+ t1.start();
+ t2.start();
+ try {
+ t1.join();
+ t2.join();
+ } catch (Exception e) {
+ System.out.println(e.toString());
+ }
+ return distance;
+ }
+ }*/
+
+  /*
+   public double computeSimilarity2(int v1ID, int v2ID) {
+   double dist = 0;
+   LinkedList<Node> q = new LinkedList<>();
+   HashSet<Node> visitedNodes = new HashSet<>();
+   Node n = new Node(v1ID, 0, 1);
+   if (n == null) {
+   return dist;
+   }
+   q.add(n);
+   while (!q.isEmpty()) {
+   Node newNode = q.poll();
+   if (newNode.depth >= StringMethods.DEPTH) {
+   continue;
+   }
+   if (newNode.distance < StringMethods.CUTOFF) {
+   continue;
+   }
+   if (newNode.vertexID == v2ID) {
+   dist += newNode.distance;
+   continue;
+   }
+   if (!visitedNodes.contains(newNode)) {
+   visitedNodes.add(newNode);
+   } else {
+   continue;
+   } 
+   if(relationshipDB.get(newNode.vertexID)==null){
+   continue;
+   }
+   for (int destinationNodeID : relationshipDB.get(newNode.vertexID)) {
+   double edgeWeight = edgeDB.get(newNode.vertexID + "-" + destinationNodeID);
+   q.add(new Node(destinationNodeID, newNode.depth + 1, newNode.distance * edgeWeight));
+   }
+   }
+   return dist;
+   }*/
